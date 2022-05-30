@@ -108,6 +108,9 @@ public void returnToClient(int id, Object value) {
 
 > ⚠️ Methods annotated with `FacketAsync` must have void as its return value, otherwise it'll be ignored.
 
+> ⚠️ Asynchronous methods won't check the timeout! Having a heart beat thread is recommended.
+
+
 
 ### Encryption
 Encrypt is not implemented by default, but you can encrypt packet data by yourself.
