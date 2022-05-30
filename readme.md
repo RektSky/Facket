@@ -76,8 +76,8 @@ peer-to-peer connection).
 To do it, please check the `FacketServer` and `FacketClient` class for full implementation guide (What method you need to
 call, what will be called, and how to implement reading, writing, and handshake).
 
-### Asynchronization
-You can only do asynchronization if it has no return value (void) for some pretty obvious reasons. A very simple workaround
+### Asynchronous
+You can only do asynchronous if it has no return value (void) for some pretty obvious reasons. A very simple workaround
 would be having 2 void methods both on client and server communication class like this:
 ```java
 // Will be called on client
