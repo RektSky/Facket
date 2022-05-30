@@ -421,7 +421,7 @@ object {
 }
 
 
-array<T extends any> {
+array<T = {any | byte | short | int | char | float | long | double | string}> {
    s4 length;              // content.length
    Type type;              // content.getClass().getComponentType()
    T[] content;            // Content of the array. Can be nested
