@@ -385,7 +385,7 @@ enum Type {
    s1 STRING    = 0x08;
    s1 OBJECT    = {
       s1 data   = 0x09;
-      string n;         // Object
+      string className;  // object.getClass().getName()
    };
 }
 ```
