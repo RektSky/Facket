@@ -279,7 +279,7 @@ public class SExampleImpl extends SExample {
 > in other languages, it's not worth reading.
 
 You can port facket to other languages like Javascript (Well, it's obviously harder because I tried it before) or C++.
-Feel free to do it, because I'm not doing it now, so here's the facket packet specification, so you know how to read 
+Feel free to do it, because I'm not doing it now. Here's the facket packet specification, so you know how to read 
 the packets correctly.
 
 Every byte mentioned here are signed (Java doesn't have unsigned support), so negative bytes are actually bytes that's
