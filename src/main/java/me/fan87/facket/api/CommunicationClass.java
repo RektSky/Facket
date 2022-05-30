@@ -1,42 +1,30 @@
 package me.fan87.facket.api;
 
+import me.fan87.facket.Facket;
 import me.fan87.facket.api.server.FacketConnection;
 
 public abstract class CommunicationClass {
 
 
-    protected final FacketClient client;
-    protected final FacketServer server;
+    protected final Facket facket;
 
     public CommunicationClass() {
-        this.server = null;
-        this.client = null;
+        this.facket = null;
     }
 
-    public CommunicationClass(FacketClient client) {
-        if (client == null) {
-            throw new NullPointerException("Client could not be null!");
-        }
-        this.client = client;
-        this.server = null;
+    public CommunicationClass(Facket facket) {
+        this.facket = facket;
     }
 
-    public CommunicationClass(FacketServer server) {
-        if (server == null) {
-            throw new NullPointerException("Server could not be null!");
-        }
-        this.server = server;
-        this.client = null;
-    }
 
-    protected Object execute(FacketConnection connection, Object... parameters) {
-        if (client != null) {
-            return client.execute(connection, parameters);
-        } else if (server != null) {
-            return server.execute(connection, parameters);
-        } else {
-            throw new NullPointerException("Facket client and server are both null.");
+    protected <T> T execute(FacketConnection connection, Object... parameters) {
+        if (connection == null) {
+            throw new NullPointerException("Connection is null! Is the class bound to impl of communication class?");
         }
+        if (facket == null) {
+            throw new NullPointerException("Facket instance is null! Is the class bound to impl of communication class?");
+        }
+        return (T) facket.execute(connection, parameters);
     }
 
 

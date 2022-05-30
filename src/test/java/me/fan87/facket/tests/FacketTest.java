@@ -27,7 +27,7 @@ public class FacketTest {
         server.start();
         client.start();
 
-        Facket facket = null;
+        Facket facket;
         for (int i = 0; i < 2; i++) {
             if (i == 0) {
                 facket = server;
@@ -47,6 +47,9 @@ public class FacketTest {
         Assertions.assertEquals(6, got);
         Assertions.assertSame(ExampleSerializableObjectExtended.class, object.getClass());
         Assertions.assertEquals(2, object.lines.size());
+        clientPackets.asyncTest();
+        System.out.println("Async Call - 1, this message should appear before 2");
+        Thread.sleep(1000);
     }
 
     @Test

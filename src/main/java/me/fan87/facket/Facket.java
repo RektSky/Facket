@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import me.fan87.facket.api.CommunicationClass;
 import me.fan87.facket.api.annotations.BoundTo;
+import me.fan87.facket.api.annotations.FacketAsync;
 import me.fan87.facket.api.io.FacketBuffer;
 import me.fan87.facket.api.serialize.CustomFacketSerialization;
 import me.fan87.facket.api.serialize.DefaultFacketSerializer;
@@ -275,13 +276,22 @@ public abstract class Facket {
             Object sleeper = new Object();
             boolean[] returned = new boolean[] {false};
             toBeResolved.put(packetId, it -> {
-                sleeper.notifyAll();
+                if (!methodCalled.isAnnotationPresent(FacketAsync.class)) {
+                    synchronized (sleeper) {
+                        sleeper.notifyAll();
+                    }
+                }
                 returned[0] = true;
             });
-            sleeper.wait(timeout);
-            if (!returned[0]) {
-                throw new IOException("Request Timed Out (" + timeout + "ms)");
+            if (!methodCalled.isAnnotationPresent(FacketAsync.class)) {
+                synchronized (sleeper) {
+                    sleeper.wait(timeout);
+                }
+                if (!returned[0]) {
+                    throw new IOException("Request Timed Out (" + timeout + "ms)");
+                }
             }
+
         } else {
             Object sleeper = new Object();
             AtomicReference<Object> returnValue = new AtomicReference<>();

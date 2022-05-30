@@ -25,6 +25,8 @@ the client or server, they will be placed to the byte buffer in order.
 
 ## Getting Started
 
+Ok im lazy to write a tutorial, just check the test for some example code.
+
 ### Keywords
 Some keywords and what they mean, so you won't get lost while reading this section.
 
@@ -67,16 +69,25 @@ Major and Minor is basically the same. Both of them must be equal to establish a
 > ⚠️ Not worth reading everything unless you want to learn more about it or be sure about something without testing it or reading
 > the code. But please at least go through every chapter name so you can know what you can learn in this section.
 
+### Implementing your own connection and handshake
+You can implement it to make it uses custom handshake and non java socket server to client connection (For example:
+peer-to-peer connection).
+
+To do it, please check the `FacketServer` and `FacketClient` class for full implementation guide (What method you need to
+call, what will be called, and how to implement reading, writing, and handshake).
+
 ### Asynchronization
 You can only do asynchronization if it has no return value (void) for some pretty obvious reasons. A very simple workaround
 would be having 2 void methods both on client and server communication class like this:
 ```java
 // Will be called on client
+@FacketAsync // Don't wait for a response from the server
 public void getFromServer(int id) {
     this.execute(id);    
 }
 
 // Will be called on server
+@FacketAsync // Don't wait for a response from the client
 public void returnToClient(int id, Object value) {
     this.execute(id, value);
 }
@@ -94,6 +105,9 @@ public void returnToClient(int id, Object value) {
     System.out.println("Got a message from server: " + value);
 }
 ```
+
+> ⚠️ Methods annotated with `FacketAsync` must have void as its return value, otherwise it'll be ignored.
+
 
 ### Encryption
 Encrypt is not implemented by default, but you can encrypt packet data by yourself.

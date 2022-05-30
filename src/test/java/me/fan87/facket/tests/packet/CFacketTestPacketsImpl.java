@@ -1,5 +1,6 @@
 package me.fan87.facket.tests.packet;
 
+import lombok.SneakyThrows;
 import me.fan87.facket.api.CommunicationClass;
 import me.fan87.facket.api.FacketClient;
 import me.fan87.facket.api.FacketServer;
@@ -14,6 +15,7 @@ public class CFacketTestPacketsImpl extends CFacketTestPackets {
         super();
     }
 
+    @Override
     public ExampleSerializableObject voidPacketTest(String valueA, ExampleSerializableObject valueB, int valueC) {
         Assertions.assertEquals("TestValue你好" /*So we have unicode test*/, valueA);
         Assertions.assertEquals(valueB.getClass(), ExampleSerializableObjectExtended.class);
@@ -23,13 +25,10 @@ public class CFacketTestPacketsImpl extends CFacketTestPackets {
         return valueB;
     }
 
-    public ExampleSerializableObject serializableObjectPacketTest(String valueA, ExampleSerializableObject valueB, int valueC) {
-        ExampleSerializableObject object = new ExampleSerializableObject();
-        return object;
+    @Override
+    @SneakyThrows
+    public void asyncTest() {
+        Thread.sleep(100);
+        System.out.println("Async Call - 2, this message should appear after 1");
     }
-
-    public String stringObjectPacketTest(String valueA, ExampleSerializableObject valueB, int valueC) {
-        return "Hello, World!";
-    }
-
 }
