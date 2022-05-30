@@ -281,10 +281,6 @@ public class SExampleImpl extends SExample {
 You can port facket to other languages like Javascript (Well, it's obviously harder because I tried it before) or C++.
 Feel free to do it, because I'm not doing it now. Here's the facket packet specification, so you know how to read 
 the packets correctly.
-
-Every byte mentioned here are signed (Java doesn't have unsigned support), so negative bytes are actually bytes that's
-greater than 0x7f, and the spec won't have byte that's greater than 0x7f
-
 ### Handshake
 To perform the handshake, client must send the data before the server, so server will actually wait for data that's sent
 from the client before sending any data back.
