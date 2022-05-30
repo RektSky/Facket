@@ -61,6 +61,7 @@ unexpected/un-understandable error, and even security problems.
 ### Protocol Version
 Major and Minor is basically the same. Both of them must be equal to establish a connection.
 
+-----
 
 ## Full Document
 > ⚠️ Not worth reading everything unless you want to learn more about it or be sure about something without testing it or reading
