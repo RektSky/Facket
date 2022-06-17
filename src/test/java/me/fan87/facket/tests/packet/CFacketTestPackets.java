@@ -3,12 +3,10 @@ package me.fan87.facket.tests.packet;
 import lombok.SneakyThrows;
 import me.fan87.facket.api.CommunicationClass;
 import me.fan87.facket.api.FacketClient;
-import me.fan87.facket.api.annotations.BoundTo;
 import me.fan87.facket.api.annotations.FacketAsync;
 import me.fan87.facket.api.server.FacketConnection;
 import me.fan87.facket.tests.ExampleSerializableObject;
 
-@BoundTo(CFacketTestPacketsImpl.class)
 public class CFacketTestPackets extends CommunicationClass {
 
 
