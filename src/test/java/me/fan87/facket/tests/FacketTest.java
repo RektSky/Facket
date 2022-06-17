@@ -14,8 +14,6 @@ public class FacketTest {
 
     public static final int port = 8293;
 
-    public FacketServer server;
-    public FacketClient client;
 
 
     public static int got = 0;
@@ -23,8 +21,8 @@ public class FacketTest {
     @DisplayName("Basic Connection Test")
     @Test
     public void basicConnectionTest() throws Throwable {
-        server = new FacketServer(new InetSocketAddress("localhost", port), 200, 1, 0);
-        client = new FacketClient(new InetSocketAddress("localhost", port), 1, 0);
+        FacketServer server = new FacketServer(new InetSocketAddress("localhost", port), 200, 1, 0);
+        FacketClient client = new FacketClient(new InetSocketAddress("localhost", port), 1, 0);
         server.start();
         client.start();
 
@@ -46,12 +44,28 @@ public class FacketTest {
         valueB.lines.add("Hello, World B");
         ExampleSerializableObject object = clientPackets.voidPacketTest("TestValue你好" /*So we have unicode test*/, valueB, 6);
         Assertions.assertEquals(6, got);
-        Assertions.assertEquals("Test String", clientPackets.link("Test String"));
+        Assertions.assertEquals("Test String", clientPackets.echo("Test String"));
         Assertions.assertSame(ExampleSerializableObjectExtended.class, object.getClass());
         Assertions.assertEquals(2, object.lines.size());
         clientPackets.asyncTest();
         System.out.println("Async Call - 1, this message should appear before 2");
         Thread.sleep(1000);
+
+        client.close();
+
+        client = new FacketClient(new InetSocketAddress("localhost", port), 1, 0);
+        client.registerCommunicationClass(CFacketTestPackets.class);
+        client.start();
+        clientPackets = new CFacketTestPackets(client);
+        Assertions.assertEquals("Test String", clientPackets.echo("Test String"));
+
+        client = new FacketClient(new InetSocketAddress("localhost", port), 1, 0);
+        client.registerCommunicationClass(CFacketTestPackets.class);
+        client.start();
+        clientPackets = new CFacketTestPackets(client);
+        Assertions.assertNotEquals("Test String", clientPackets.echo("Test String Test String Test String Test String Test String Test String Test String Test String Test String Test String Test String Test String Test String Test String Test String Test String Test String Test String Test String Test String Test String Test String "));
+        client.close();
+
     }
 
     @Test

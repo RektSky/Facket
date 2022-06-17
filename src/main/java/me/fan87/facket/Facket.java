@@ -360,7 +360,8 @@ public abstract class Facket {
             }
             CommunicationClass obj = constructor.newInstance();
             obj.sender = connection;
-            FacketBuffer returnBuffer = new FacketBuffer(ByteBuffer.allocate(bufferSize), this);
+            ByteBuffer original = ByteBuffer.allocate(this.bufferSize);
+            FacketBuffer returnBuffer = new FacketBuffer(original, this);
             try {
                 Object returnValue = method.invoke(obj, parameters);
                 returnBuffer.put(PacketType.RETURN);

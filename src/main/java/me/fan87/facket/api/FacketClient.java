@@ -26,6 +26,10 @@ public class FacketClient extends Facket {
         this(address, 1024*512, protocolVersionMajor, protocolVersionMinor); // 512 KB
     }
 
+    public void close() throws IOException {
+        client.close();
+    }
+
     @Override
     public void start() throws IOException {
         client = new Socket();

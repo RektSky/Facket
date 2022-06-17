@@ -33,7 +33,7 @@ public class CFacketTestPacketsImpl extends CFacketTestPackets {
     }
 
     @Override
-    public String link(String test) {
+    public String echo(String test) {
         return test;
     }
 }

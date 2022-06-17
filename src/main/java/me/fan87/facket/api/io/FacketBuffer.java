@@ -630,4 +630,8 @@ public class FacketBuffer {
         return this.original.position();
     }
 
+    public int capacity() {
+        return this.original.capacity();
+    }
+
 }
