@@ -20,6 +20,11 @@ public class CFacketTestPackets extends CommunicationClass {
 
     public CFacketTestPackets() { super(); this.connection = null; }
 
+    @Override
+    public Class<?> getBoundClass() {
+        return CFacketTestPacketsImpl.class;
+    }
+
 
     public ExampleSerializableObject voidPacketTest(String valueA, ExampleSerializableObject valueB, int valueC) {
         return this.execute(connection, valueA, valueB, valueC);

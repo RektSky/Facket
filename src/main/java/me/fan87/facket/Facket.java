@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import me.fan87.facket.api.CommunicationClass;
-import me.fan87.facket.api.annotations.BoundTo;
 import me.fan87.facket.api.annotations.FacketAsync;
 import me.fan87.facket.api.io.FacketBuffer;
 import me.fan87.facket.api.serialize.CustomFacketSerialization;
@@ -130,7 +129,7 @@ public abstract class Facket {
 
     //<editor-fold desc="Serialization" defaultstate="collapsed">
     private final Map<Predicate<Class<?>>, CustomFacketSerialization<?>> serializers = new HashMap<>();
-    private final Map<Integer, Class<?>> communicationClasses = new HashMap<>();
+    private final Map<Integer, Class<? extends CommunicationClass>> communicationClasses = new HashMap<>();
     private final Map<Integer, Method> communicationMethods = new HashMap<>();
 
     /**
@@ -171,15 +170,16 @@ public abstract class Facket {
         return serializer;
     }
 
+    @SneakyThrows
     private void addCommunicationClass(Class<? extends CommunicationClass> communicationClass) {
         if (!securityControl.canBeCommunicationClass(communicationClass.getName())) {
             return;
         }
-        if (!communicationClass.isAnnotationPresent(BoundTo.class)) {
-            throw new IllegalArgumentException("Communication Class: " + communicationClass.getName() + " is invalid because it doesn't have BoundTo annotation!");
+
+        if (communicationClass.newInstance().getBoundClass() == null) {
+            throw new IllegalArgumentException("Communication Class: " + communicationClass.getName() + " hasn't bound to anything");
         }
-        BoundTo bound = communicationClass.getAnnotation(BoundTo.class);
-        communicationClasses.put(communicationClass.getName().hashCode(), bound.value());
+        communicationClasses.put(communicationClass.getName().hashCode(), communicationClass);
     }
 
     /**
@@ -343,7 +343,8 @@ public abstract class Facket {
         int packetId = buffer.getInt();
         if (type == PacketType.SEND) {
             int classHash = buffer.getInt();
-            Class<?> clazz = communicationClasses.get(classHash);
+            Class<? extends CommunicationClass> foundClass = communicationClasses.get(classHash);
+            Class<?> clazz = foundClass.newInstance().getBoundClass();
             int methodHash = buffer.getInt();
             Method method = communicationMethods.get(methodHash);
             Object[] parameters = new Object[method.getParameterCount()];

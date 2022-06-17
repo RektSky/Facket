@@ -27,6 +27,7 @@ public abstract class CommunicationClass {
         return (T) facket.execute(connection, parameters);
     }
 
+    public abstract Class<?> getBoundClass();
 
 
 }

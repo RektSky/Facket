@@ -227,9 +227,7 @@ easier to read other people's code.
 ```java
 import me.fan87.facket.api.CommunicationClass;
 import me.fan87.facket.api.FacketClient;
-import me.fan87.facket.api.annotations.BoundTo;
 
-@BoundTo(CExampleImpl.class)
 public class CExample extends CommunicationClass {
    public CExample(FacketClient client) {
       super(client);
@@ -243,6 +241,12 @@ public class CExample extends CommunicationClass {
       return (String) this.execute(parameterOne, parameterTwo);
    }
 
+   @Override
+   public Class<?> getBoundClass() {
+      return CExampleImpl.class;
+   }
+
+
 }
 ```
 
@@ -251,9 +255,7 @@ public class CExample extends CommunicationClass {
 ```java
 import me.fan87.facket.api.CommunicationClass;
 import me.fan87.facket.api.FacketClient;
-import me.fan87.facket.api.annotations.BoundTo;
 
-@BoundTo(SExampleImpl.class)
 public class SExample extends CommunicationClass {
     public SExample(FacketServer server) {
         super(server);
@@ -262,7 +264,13 @@ public class SExample extends CommunicationClass {
     public String exampleMethod(String parameterOne, int parameterTwo) {
         return (String) this.execute(parameterOne, parameterTwo);
     }
-    
+
+   @Override
+   public Class<?> getBoundClass() {
+      return SExampleImpl.class;
+   }
+
+
 }
 ```
 
@@ -270,7 +278,6 @@ public class SExample extends CommunicationClass {
 them (Since they were sent from the client). It should look something like this:
 
 ```java
-import me.fan87.facket.api.annotations.BoundTo;
 
 public class CExampleImpl extends CExample {
     public CExampleImpl() { super(); }
@@ -286,7 +293,6 @@ public class CExampleImpl extends CExample {
    them (Since they were sent from the client). It should look something like this:
 
 ```java
-import me.fan87.facket.api.annotations.BoundTo;
 
 public class SExampleImpl extends SExample {
     public SExampleImpl() { super(); }
