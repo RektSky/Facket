@@ -27,6 +27,9 @@ the client or server, they will be placed to the byte buffer in order.
 
 Ok im lazy to write a tutorial, just check the test for some example code.
 
+### Download
+You can get it for gradle or maven [here](https://jitpack.io/#RektSky/Facket)
+
 ### Keywords
 Some keywords and what they mean, so you won't get lost while reading this section.
 
