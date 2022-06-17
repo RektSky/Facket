@@ -176,9 +176,7 @@ public abstract class Facket {
             return;
         }
 
-        if (communicationClass.newInstance().getBoundClass() == null) {
-            throw new IllegalArgumentException("Communication Class: " + communicationClass.getName() + " hasn't bound to anything");
-        }
+
         communicationClasses.put(communicationClass.getName().hashCode(), communicationClass);
     }
 
@@ -345,6 +343,9 @@ public abstract class Facket {
             int classHash = buffer.getInt();
             Class<? extends CommunicationClass> foundClass = communicationClasses.get(classHash);
             Class<?> clazz = foundClass.newInstance().getBoundClass();
+            if (clazz == null) {
+                throw new IllegalArgumentException("Communication Class: " + foundClass.getName() + " hasn't bound to anything");
+            }
             int methodHash = buffer.getInt();
             Method method = communicationMethods.get(methodHash);
             Object[] parameters = new Object[method.getParameterCount()];
