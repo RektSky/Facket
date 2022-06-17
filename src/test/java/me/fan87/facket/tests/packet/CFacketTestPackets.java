@@ -28,6 +28,10 @@ public class CFacketTestPackets extends CommunicationClass {
         return this.execute(connection, valueA, valueB, valueC);
     }
 
+    public String link(String test) {
+        return this.execute(connection, test);
+    }
+
 
     @FacketAsync
     @SneakyThrows

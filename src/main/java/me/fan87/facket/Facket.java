@@ -342,7 +342,7 @@ public abstract class Facket {
         if (type == PacketType.SEND) {
             int classHash = buffer.getInt();
             Class<? extends CommunicationClass> foundClass = communicationClasses.get(classHash);
-            Class<?> clazz = foundClass.newInstance().getBoundClass();
+            Class<? extends CommunicationClass> clazz = (Class<? extends CommunicationClass>) foundClass.newInstance().getBoundClass();
             if (clazz == null) {
                 throw new IllegalArgumentException("Communication Class: " + foundClass.getName() + " hasn't bound to anything");
             }
@@ -352,13 +352,14 @@ public abstract class Facket {
             for (int i = 0; i < method.getParameterCount(); i++) {
                 parameters[i] = buffer.getAny();
             }
-            Constructor<?> constructor;
+            Constructor<? extends CommunicationClass> constructor;
             try {
                 constructor = clazz.getConstructor();
             } catch (NoSuchMethodException e) {
                 throw new IllegalArgumentException("Communication class: " + clazz.getName() + " doesn't have an empty public constructor!");
             }
-            Object obj = constructor.newInstance();
+            CommunicationClass obj = constructor.newInstance();
+            obj.sender = connection;
             FacketBuffer returnBuffer = new FacketBuffer(ByteBuffer.allocate(bufferSize), this);
             try {
                 Object returnValue = method.invoke(obj, parameters);

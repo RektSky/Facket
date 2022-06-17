@@ -17,6 +17,7 @@ public class FacketTest {
     public FacketServer server;
     public FacketClient client;
 
+
     public static int got = 0;
 
     @DisplayName("Basic Connection Test")
@@ -45,6 +46,7 @@ public class FacketTest {
         valueB.lines.add("Hello, World B");
         ExampleSerializableObject object = clientPackets.voidPacketTest("TestValue你好" /*So we have unicode test*/, valueB, 6);
         Assertions.assertEquals(6, got);
+        Assertions.assertEquals("Test String", clientPackets.link("Test String"));
         Assertions.assertSame(ExampleSerializableObjectExtended.class, object.getClass());
         Assertions.assertEquals(2, object.lines.size());
         clientPackets.asyncTest();

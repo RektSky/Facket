@@ -31,4 +31,9 @@ public class CFacketTestPacketsImpl extends CFacketTestPackets {
         Thread.sleep(100);
         System.out.println("Async Call - 2, this message should appear after 1");
     }
+
+    @Override
+    public String link(String test) {
+        return test;
+    }
 }

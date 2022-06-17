@@ -5,6 +5,7 @@ import me.fan87.facket.api.server.FacketConnection;
 
 public abstract class CommunicationClass {
 
+    public FacketConnection sender;
 
     protected final Facket facket;
 
